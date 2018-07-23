@@ -46,7 +46,7 @@ namespace Xamarin.Essentials
         }
     }
 
-    class AccelerometerListener : Java.Lang.Object, ISensorEventListener
+    sealed class AccelerometerListener : Java.Lang.Object, ISensorEventListener
     {
         // acceleration due to gravity
         const double gravity = 9.81;

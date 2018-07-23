@@ -46,7 +46,7 @@ namespace Xamarin.Essentials
         }
     }
 
-    class OrientationSensorListener : Java.Lang.Object, ISensorEventListener
+    sealed class OrientationSensorListener : Java.Lang.Object, ISensorEventListener
     {
         internal OrientationSensorListener()
         {

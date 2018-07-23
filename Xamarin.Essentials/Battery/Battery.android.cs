@@ -105,15 +105,11 @@ namespace Xamarin.Essentials
     }
 
     [BroadcastReceiver(Enabled = true, Exported = false, Label = "Essentials Battery Broadcast Receiver")]
-    class BatteryBroadcastReceiver : BroadcastReceiver
+    sealed class BatteryBroadcastReceiver : BroadcastReceiver
     {
-        Action onChanged;
+        readonly Action onChanged;
 
-        public BatteryBroadcastReceiver()
-        {
-        }
-
-        public BatteryBroadcastReceiver(Action onChanged) =>
+        internal BatteryBroadcastReceiver(Action onChanged) =>
             this.onChanged = onChanged;
 
         public override void OnReceive(Context context, Intent intent) =>

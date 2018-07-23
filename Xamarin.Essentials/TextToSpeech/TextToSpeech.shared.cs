@@ -15,7 +15,7 @@ namespace Xamarin.Essentials
         internal const float VolumeDefault = 0.5f;
         internal const float VolumeMin = 0.0f;
 
-        static SemaphoreSlim semaphore;
+        static readonly Lazy<SemaphoreSlim> semaphore = new Lazy<SemaphoreSlim>(() => new SemaphoreSlim(1, 1));
 
         public static Task<IEnumerable<Locale>> GetLocalesAsync() =>
             PlatformGetLocalesAsync();
@@ -40,26 +40,16 @@ namespace Xamarin.Essentials
                     throw new ArgumentOutOfRangeException($"Pitch must be >= {PitchMin} and <= {PitchMin}");
             }
 
-            if (semaphore == null)
-                semaphore = new SemaphoreSlim(1, 1);
-
             try
             {
-                await semaphore.WaitAsync(cancelToken);
+                await semaphore.Value.WaitAsync(cancelToken);
                 await PlatformSpeakAsync(text, settings, cancelToken);
             }
             finally
             {
-                if (semaphore.CurrentCount == 0)
-                    semaphore.Release();
+                if (semaphore.Value.CurrentCount == 0)
+                    semaphore.Value.Release();
             }
-        }
-
-        internal static float PlatformNormalize(float min, float max, float percent)
-        {
-            var range = max - min;
-            var add = range * percent;
-            return min + add;
         }
     }
 

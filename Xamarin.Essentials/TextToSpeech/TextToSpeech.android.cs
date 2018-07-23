@@ -53,7 +53,7 @@ namespace Xamarin.Essentials
         }
     }
 
-    internal class TextToSpeechImplementation : Java.Lang.Object, AndroidTextToSpeech.IOnInitListener,
+    sealed class TextToSpeechImplementation : Java.Lang.Object, AndroidTextToSpeech.IOnInitListener,
 #pragma warning disable CS0618
         AndroidTextToSpeech.IOnUtteranceCompletedListener
 #pragma warning restore CS0618
@@ -180,7 +180,7 @@ namespace Xamarin.Essentials
                 tcsInitialize.TrySetException(new ArgumentException("Failed to initialize Text to Speech engine."));
         }
 
-        public async Task<IEnumerable<Locale>> GetLocalesAsync()
+        internal async Task<IEnumerable<Locale>> GetLocalesAsync()
         {
             await Initialize();
 
@@ -203,7 +203,7 @@ namespace Xamarin.Essentials
                 .Select(g => g.First());
         }
 
-        private bool IsLocaleAvailable(JavaLocale l)
+        bool IsLocaleAvailable(JavaLocale l)
         {
             try
             {

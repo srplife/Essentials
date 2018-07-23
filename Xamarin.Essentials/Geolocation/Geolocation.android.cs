@@ -189,15 +189,15 @@ namespace Xamarin.Essentials
         }
     }
 
-    class SingleLocationListener : Java.Lang.Object, ILocationListener
+    sealed class SingleLocationListener : Java.Lang.Object, ILocationListener
     {
         readonly object locationSync = new object();
 
-        float desiredAccuracy;
+        readonly float desiredAccuracy;
 
         internal AndroidLocation BestLocation { get; set; }
 
-        HashSet<string> activeProviders = new HashSet<string>();
+        readonly HashSet<string> activeProviders = new HashSet<string>();
 
         bool wasRaised = false;
 

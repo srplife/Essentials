@@ -13,7 +13,7 @@ namespace Xamarin.Essentials
 
         static readonly string sharedName = Preferences.PrivatePreferencesSharedName;
 
-        static Dictionary<string, List<string>> versionTrail;
+        static readonly Dictionary<string, List<string>> versionTrail;
 
         static VersionTracking()
         {

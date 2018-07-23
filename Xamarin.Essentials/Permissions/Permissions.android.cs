@@ -10,13 +10,15 @@ using Android.Support.V4.Content;
 
 namespace Xamarin.Essentials
 {
+#pragma warning disable IDE0040 // Add accessibility modifiers
     internal static partial class Permissions
+#pragma warning restore IDE0040 // Add accessibility modifiers
     {
         static readonly object locker = new object();
-        static int requestCode = 0;
-
-        static Dictionary<PermissionType, (int requestCode, TaskCompletionSource<PermissionStatus> tcs)> requests =
+        static readonly Dictionary<PermissionType, (int requestCode, TaskCompletionSource<PermissionStatus> tcs)> requests =
             new Dictionary<PermissionType, (int, TaskCompletionSource<PermissionStatus>)>();
+
+        static int requestCode = 0;
 
         static void PlatformEnsureDeclared(PermissionType permission)
         {

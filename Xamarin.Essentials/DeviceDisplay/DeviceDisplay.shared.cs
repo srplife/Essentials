@@ -51,15 +51,6 @@ namespace Xamarin.Essentials
     [Preserve(AllMembers = true)]
     public struct ScreenMetrics
     {
-        internal ScreenMetrics(double width, double height, double density, ScreenOrientation orientation, ScreenRotation rotation)
-        {
-            Width = width;
-            Height = height;
-            Density = density;
-            Orientation = orientation;
-            Rotation = rotation;
-        }
-
         public double Width { get; set; }
 
         public double Height { get; set; }

@@ -49,15 +49,11 @@ namespace Xamarin.Essentials
     }
 
     [BroadcastReceiver(Enabled = true, Exported = false, Label = "Essentials Power Broadcast Receiver")]
-    class PowerBroadcastReceiver : BroadcastReceiver
+    sealed class PowerBroadcastReceiver : BroadcastReceiver
     {
-        Action onChanged;
+        readonly Action onChanged;
 
-        public PowerBroadcastReceiver()
-        {
-        }
-
-        public PowerBroadcastReceiver(Action onChanged) =>
+        internal PowerBroadcastReceiver(Action onChanged) =>
             this.onChanged = onChanged;
 
         public override void OnReceive(Context context, Intent intent) =>

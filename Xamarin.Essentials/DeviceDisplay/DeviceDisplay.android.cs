@@ -92,9 +92,9 @@ namespace Xamarin.Essentials
            => Settings.System.GetString(Platform.AppContext.ContentResolver, name);
     }
 
-    class Listener : OrientationEventListener
+    sealed class Listener : OrientationEventListener
     {
-        Action onChanged;
+        readonly Action onChanged;
 
         internal Listener(Context context, Action handler)
             : base(context)

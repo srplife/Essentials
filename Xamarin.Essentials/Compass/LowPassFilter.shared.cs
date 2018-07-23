@@ -3,13 +3,12 @@ using System.Collections.Generic;
 
 namespace Xamarin.Essentials
 {
-    class LowPassFilter
+    sealed class LowPassFilter
     {
         const int length = 10;
-
+        readonly Queue<float> history = new Queue<float>(length);
         float sin;
         float cos;
-        Queue<float> history = new Queue<float>(length);
 
         internal void Add(float radians)
         {

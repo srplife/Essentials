@@ -67,7 +67,7 @@ namespace Xamarin.Essentials
             if (useSyncContext)
                 MainThread.BeginInvokeOnMainThread(() => handler?.Invoke(null, e));
             else
-                handler?.Invoke(null, e);
+                handler.Invoke(null, e);
         }
     }
 

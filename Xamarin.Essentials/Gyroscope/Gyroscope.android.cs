@@ -46,7 +46,7 @@ namespace Xamarin.Essentials
         }
     }
 
-    class GyroscopeListener : Java.Lang.Object, ISensorEventListener
+    sealed class GyroscopeListener : Java.Lang.Object, ISensorEventListener
     {
         internal GyroscopeListener()
         {

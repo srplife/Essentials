@@ -204,13 +204,9 @@ namespace Xamarin.Essentials
     }
 
     [BroadcastReceiver(Enabled = true, Exported = false, Label = "Essentials Connectivity Broadcast Receiver")]
-    class ConnectivityBroadcastReceiver : BroadcastReceiver
+    sealed class ConnectivityBroadcastReceiver : BroadcastReceiver
     {
-        Action onChanged;
-
-        public ConnectivityBroadcastReceiver()
-        {
-        }
+        readonly Action onChanged;
 
         public ConnectivityBroadcastReceiver(Action onChanged) =>
             this.onChanged = onChanged;

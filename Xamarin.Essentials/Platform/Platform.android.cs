@@ -83,9 +83,9 @@ namespace Xamarin.Essentials
             AppContext.GetSystemService(Context.PowerService) as PowerManager;
     }
 
-    class ActivityLifecycleContextListener : Java.Lang.Object, Application.IActivityLifecycleCallbacks
+    sealed class ActivityLifecycleContextListener : Java.Lang.Object, Application.IActivityLifecycleCallbacks
     {
-        WeakReference<Activity> currentActivity = new WeakReference<Activity>(null);
+        readonly WeakReference<Activity> currentActivity = new WeakReference<Activity>(null);
 
         internal Context Context =>
             Activity ?? Application.Context;

@@ -52,18 +52,18 @@ namespace Xamarin.Essentials
         }
     }
 
-    class SensorListener : Java.Lang.Object, ISensorEventListener, IDisposable
+    sealed class SensorListener : Java.Lang.Object, ISensorEventListener, IDisposable
     {
-        LowPassFilter filter = new LowPassFilter();
-        float[] lastAccelerometer = new float[3];
-        float[] lastMagnetometer = new float[3];
+        readonly LowPassFilter filter = new LowPassFilter();
+        readonly float[] lastAccelerometer = new float[3];
+        readonly float[] lastMagnetometer = new float[3];
+        readonly float[] r = new float[9];
+        readonly float[] orientation = new float[3];
+        readonly string magnetometer;
+        readonly string accelerometer;
+
         bool lastAccelerometerSet;
         bool lastMagnetometerSet;
-        float[] r = new float[9];
-        float[] orientation = new float[3];
-
-        string magnetometer;
-        string accelerometer;
 
         internal SensorListener(string accelerometer, string magnetometer, SensorDelay delay)
         {

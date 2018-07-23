@@ -61,7 +61,7 @@ namespace Xamarin.Essentials
         internal static bool AlwaysUseAsymmetricKeyStorage { get; set; } = false;
     }
 
-    class AndroidKeyStore
+    sealed class AndroidKeyStore
     {
         const string androidKeyStore = "AndroidKeyStore"; // this is an Android const value
         const string aesAlgorithm = "AES";
@@ -69,6 +69,7 @@ namespace Xamarin.Essentials
         const string cipherTransformationSymmetric = "AES/GCM/NoPadding";
         const string prefsMasterKey = "SecureStorageKey";
         const int initializationVectorLen = 12; // Android supports an IV of 12 for AES/GCM
+        const string useSymmetricPreferenceKey = "essentials_use_symmetric";
 
         internal AndroidKeyStore(Context context, string keystoreAlias, bool alwaysUseAsymmetricKeyStorage)
         {
@@ -80,13 +81,27 @@ namespace Xamarin.Essentials
             keyStore.Load(null);
         }
 
-        Context appContext;
-        string alias;
-        KeyStore keyStore;
-        bool alwaysUseAsymmetricKey;
+        readonly Context appContext;
+        readonly string alias;
+        readonly KeyStore keyStore;
+        readonly bool alwaysUseAsymmetricKey;
 
         bool useSymmetric = false;
-        string useSymmetricPreferenceKey = "essentials_use_symmetric";
+
+        static byte[] WrapKey(IKey keyToWrap, IKey withKey)
+        {
+            var cipher = Cipher.GetInstance(cipherTransformationAsymmetric);
+            cipher.Init(CipherMode.WrapMode, withKey);
+            return cipher.Wrap(keyToWrap);
+        }
+
+        static IKey UnwrapKey(byte[] wrappedData, IKey withKey)
+        {
+            var cipher = Cipher.GetInstance(cipherTransformationAsymmetric);
+            cipher.Init(CipherMode.UnwrapMode, withKey);
+            var unwrapped = cipher.Unwrap(wrappedData, KeyProperties.KeyAlgorithmAes, KeyType.SecretKey);
+            return unwrapped;
+        }
 
         ISecretKey GetKey()
         {
@@ -191,21 +206,6 @@ namespace Xamarin.Essentials
 #pragma warning restore CS0618
 
             return generator.GenerateKeyPair();
-        }
-
-        byte[] WrapKey(IKey keyToWrap, IKey withKey)
-        {
-            var cipher = Cipher.GetInstance(cipherTransformationAsymmetric);
-            cipher.Init(CipherMode.WrapMode, withKey);
-            return cipher.Wrap(keyToWrap);
-        }
-
-        IKey UnwrapKey(byte[] wrappedData, IKey withKey)
-        {
-            var cipher = Cipher.GetInstance(cipherTransformationAsymmetric);
-            cipher.Init(CipherMode.UnwrapMode, withKey);
-            var unwrapped = cipher.Unwrap(wrappedData, KeyProperties.KeyAlgorithmAes, KeyType.SecretKey);
-            return unwrapped;
         }
 
         internal byte[] Encrypt(string data)

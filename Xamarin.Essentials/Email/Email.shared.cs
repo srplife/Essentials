@@ -55,7 +55,8 @@ namespace Xamarin.Essentials
         {
             Subject = subject;
             Body = body;
-            To = to?.ToList() ?? new List<string>();
+            if (to != null && to.Length != 0)
+                To.AddRange(to);
         }
 
         public string Subject { get; set; }
