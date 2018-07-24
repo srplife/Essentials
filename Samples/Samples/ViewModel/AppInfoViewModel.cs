@@ -19,14 +19,14 @@ namespace Samples.ViewModel
 
         public Command OpenSettingsCommand { get; }
 
-        public string IsVisible => $"State change - Visible: {ApplicationState.State == AppState.Foreground}";
+        public string IsVisible => $"State change - Visible: {AppInfo.State == AppState.Foreground}";
 
         public IList<AppStateChange> History { get; } = new ObservableCollection<AppStateChange>();
 
         public AppInfoViewModel()
         {
             OpenSettingsCommand = new Command(() => AppInfo.OpenSettings());
-            ApplicationState.AppStateChanged += UpdateState;
+            AppInfo.AppStateChanged += UpdateState;
         }
 
         public override void OnDisappearing()
@@ -34,7 +34,7 @@ namespace Samples.ViewModel
             Task.Run(async () =>
                 {
                     await Task.Delay(1500); // To catch the event if this is to test app state
-                    ApplicationState.AppStateChanged -= UpdateState;
+                    AppInfo.AppStateChanged -= UpdateState;
                 });
         }
 

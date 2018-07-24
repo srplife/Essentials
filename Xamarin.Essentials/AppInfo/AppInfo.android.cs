@@ -82,7 +82,7 @@ namespace Xamarin.Essentials
         }
     }
 
-    public class AppStateLifecycleListener : Java.Lang.Object, IActivityLifecycleCallbacks, IComponentCallbacks2
+    class AppStateLifecycleListener : Java.Lang.Object, IActivityLifecycleCallbacks, IComponentCallbacks2
     {
         readonly Action<AppState> callback;
 
