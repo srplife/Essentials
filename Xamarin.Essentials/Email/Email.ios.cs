@@ -46,6 +46,8 @@ namespace Xamarin.Essentials
                 controller.SetCcRecipients(message.Cc.ToArray());
             if (message?.Bcc.Count > 0)
                 controller.SetBccRecipients(message.Bcc.ToArray());
+            foreach (var item in message.Attachments)
+                controller.AddAttachmentData(NSData.FromFile(item.Filepath), "application/octet-stream", item.Name);
 
             // show the controller
             var tcs = new TaskCompletionSource<bool>();

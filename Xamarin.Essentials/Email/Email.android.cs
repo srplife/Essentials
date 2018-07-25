@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Android.Content;
+using Android.Net;
 using Android.OS;
 using Android.Text;
+using Java.Lang;
 
 namespace Xamarin.Essentials
 {
@@ -15,13 +18,13 @@ namespace Xamarin.Essentials
 
         static Task PlatformComposeAsync(EmailMessage message)
         {
+            Permissions.RequestAsync(PermissionType.)
             var intent = CreateIntent(message)
                 .SetFlags(ActivityFlags.ClearTop)
                 .SetFlags(ActivityFlags.NewTask);
 
             Platform.AppContext.StartActivity(intent);
-
-            return Task.FromResult(true);
+            return Task.CompletedTask;
         }
 
         static Intent CreateIntent(EmailMessage message)
@@ -59,6 +62,17 @@ namespace Xamarin.Essentials
                 intent.PutExtra(Intent.ExtraCc, message.Cc.ToArray());
             if (message.Bcc?.Count > 0)
                 intent.PutExtra(Intent.ExtraBcc, message.Bcc.ToArray());
+
+            var attachmentUris = message.Attachments.Select(
+                x => Uri.Parse($"file://{x.Filepath}")).ToArray();
+            if (attachmentUris.Length > 0)
+            {
+                intent.AddFlags(ActivityFlags.GrantReadUriPermission);
+                if (attachmentUris.Length > 1)
+                    intent.PutParcelableArrayListExtra(Intent.ExtraStream, attachmentUris);
+                else
+                    intent.PutExtra(Intent.ExtraStream, attachmentUris.Single());
+            }
 
             return intent;
         }

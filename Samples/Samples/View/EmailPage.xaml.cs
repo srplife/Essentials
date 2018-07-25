@@ -1,4 +1,6 @@
-﻿namespace Samples.View
+﻿using Xamarin.Forms.PlatformConfiguration;
+
+namespace Samples.View
 {
     public partial class EmailPage : BasePage
     {

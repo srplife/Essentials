@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Email;
 using Windows.Foundation.Metadata;
-
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using NativeEmailMessage = Windows.ApplicationModel.Email.EmailMessage;
 
 namespace Xamarin.Essentials
@@ -19,14 +23,22 @@ namespace Xamarin.Essentials
                 throw new FeatureNotSupportedException("UWP can only compose plain text email messages.");
 
             var nativeMessage = new NativeEmailMessage();
-            if (!string.IsNullOrEmpty(message?.Body))
+            if (!string.IsNullOrEmpty(message.Body))
                 nativeMessage.Body = message.Body;
-            if (!string.IsNullOrEmpty(message?.Subject))
+            if (!string.IsNullOrEmpty(message.Subject))
                 nativeMessage.Subject = message.Subject;
-            Sync(message?.To, nativeMessage.To);
-            Sync(message?.Cc, nativeMessage.CC);
-            Sync(message?.Bcc, nativeMessage.Bcc);
+            Sync(message.To, nativeMessage.To);
+            Sync(message.Cc, nativeMessage.CC);
+            Sync(message.Bcc, nativeMessage.Bcc);
 
+            foreach (var item in message.Attachments)
+            {
+                var file = await StorageFile.GetFileFromPathAsync(item.Filepath);
+
+                var stream = RandomAccessStreamReference.CreateFromFile(file);
+                nativeMessage.Attachments.Add(
+                    new EmailAttachment(item.Name, stream));
+            }
             await EmailManager.ShowComposeNewEmailAsync(nativeMessage);
         }
 

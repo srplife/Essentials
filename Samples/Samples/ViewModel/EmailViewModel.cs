@@ -9,8 +9,10 @@ namespace Samples.ViewModel
 {
     public class EmailViewModel : BaseViewModel
     {
+        string attachmentname;
         string subject;
         string body;
+        string filepath;
         string recipientsTo;
         string recipientsCc;
         string recipientsBcc;
@@ -28,10 +30,22 @@ namespace Samples.ViewModel
             set => SetProperty(ref subject, value);
         }
 
+        public string AttachmentName
+        {
+            get => attachmentname;
+            set => SetProperty(ref attachmentname, value);
+        }
+
         public string Body
         {
             get => body;
             set => SetProperty(ref body, value);
+        }
+
+        public string Filepath
+        {
+            get => filepath;
+            set => SetProperty(ref filepath, value);
         }
 
         public string RecipientsTo
@@ -67,6 +81,7 @@ namespace Samples.ViewModel
                     To = Split(RecipientsTo),
                     Cc = Split(RecipientsCc),
                     Bcc = Split(RecipientsBcc),
+                    Attachments = new List<Attachment> { new Attachment(AttachmentName, Filepath) }
                 });
             }
             finally

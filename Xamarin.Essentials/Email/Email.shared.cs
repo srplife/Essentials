@@ -69,6 +69,21 @@ namespace Xamarin.Essentials
         public List<string> Cc { get; set; } = new List<string>();
 
         public List<string> Bcc { get; set; } = new List<string>();
+
+        public List<Attachment> Attachments { get; set; } = new List<Attachment>();
+    }
+
+    public readonly struct Attachment
+    {
+        public Attachment(string name, string path)
+        {
+            Name = name;
+            Filepath = path;
+        }
+
+        public string Name { get; }
+
+        public string Filepath { get; }
     }
 
     public enum EmailBodyFormat

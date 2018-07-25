@@ -25,6 +25,10 @@
                 <Entry Text="{Binding RecipientsBcc}" />
                 <Label Text="Subject:" />
                 <Entry Text="{Binding Subject}" />
+                <Label Text="Attachment name:" />
+                <Entry Text="{Binding AttachmentName}" />
+                <Label Text="Attachment path:" />
+                <Entry Text="{Binding Filepath}" />
                 <Label Text="Body:" />
                 <Editor Text="{Binding Body}" Keyboard="Chat"
                         VerticalOptions="FillAndExpand" HeightRequest="200" />

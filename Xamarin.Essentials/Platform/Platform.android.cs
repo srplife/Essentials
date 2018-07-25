@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Android.App;
 using Android.Content;
@@ -9,11 +10,17 @@ using Android.Locations;
 using Android.Net;
 using Android.Net.Wifi;
 using Android.OS;
+using Android.Support.V4.Content;
+using Java.Util;
+using AndroidEnvironment = Android.OS.Environment;
+using AndroidUri = Android.Net.Uri;
 
 namespace Xamarin.Essentials
 {
     public static partial class Platform
     {
+        static readonly string fileprovider = "xamarin_essentials_fileprovider_name";
+
         static ActivityLifecycleContextListener lifecycleListener;
 
         internal static Context AppContext =>
@@ -26,6 +33,19 @@ namespace Xamarin.Essentials
                 throw new NullReferenceException("The current Activity can not be detected. Ensure that you have called Init in your Activity or Application class.");
 
             return activity;
+        }
+
+        internal static AndroidUri GetUriForFile(string filename)
+        {
+            var stringId = AppContext.Resources.GetIdentifier(fileprovider, "string", AppContext.PackageName);
+
+            // if (stringId <= 0)
+            //     throw new MissingResourceException("Missing fileprovider registered in client app", "Platform", fileprovider);
+            var fileProviderName = AppContext.Resources.GetString(stringId);
+            var dir = AndroidEnvironment.GetExternalStoragePublicDirectory(AndroidEnvironment.DirectoryDownloads);
+            var path = Path.Combine(dir.AbsolutePath, "SamplePNGImage_100kbmb.png");
+            var uri = FileProvider.GetUriForFile(AppContext, AppContext.PackageName, new Java.IO.File(path));
+            return uri;
         }
 
         public static void Init(Application application)
@@ -98,8 +118,8 @@ namespace Xamarin.Essentials
 
         internal Activity Activity
         {
-           get => currentActivity.TryGetTarget(out var a) ? a : null;
-           set => currentActivity.SetTarget(value);
+            get => currentActivity.TryGetTarget(out var a) ? a : null;
+            set => currentActivity.SetTarget(value);
         }
 
         void Application.IActivityLifecycleCallbacks.OnActivityCreated(Activity activity, Bundle savedInstanceState) =>
