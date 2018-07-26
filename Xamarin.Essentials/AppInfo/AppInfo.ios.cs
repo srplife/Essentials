@@ -7,6 +7,8 @@ namespace Xamarin.Essentials
     {
         static string PlatformGetPackageName() => GetBundleValue("CFBundleIdentifier");
 
+        static Brightness PlatformBrightness => new Brightness(UIScreen.MainScreen.Brightness);
+
         static string PlatformGetName() => GetBundleValue("CFBundleDisplayName") ?? GetBundleValue("CFBundleName");
 
         static string PlatformGetVersionString() => GetBundleValue("CFBundleShortVersionString");
@@ -18,5 +20,8 @@ namespace Xamarin.Essentials
 
         static void PlatformOpenSettings() =>
             UIApplication.SharedApplication.OpenUrl(new NSUrl(UIApplication.OpenSettingsUrlString));
+
+        static void PlatformSetBrightness(Brightness brightness)
+            => UIScreen.MainScreen.Brightness = (float)brightness.Value;
     }
 }

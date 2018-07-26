@@ -15,5 +15,11 @@ namespace Xamarin.Essentials
         public static string BuildString => PlatformGetBuild();
 
         public static void OpenSettings() => PlatformOpenSettings();
+
+        public static Brightness Brightness => PlatformBrightness;
+
+        public static void SetBrightness(double value) => SetBrightness(new Brightness(value));
+
+        public static void SetBrightness(Brightness brightness) => PlatformSetBrightness(brightness);
     }
 }

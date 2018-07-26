@@ -1,12 +1,22 @@
 ﻿using System.Globalization;
 using Android.Content;
 using Android.Content.PM;
+using Android.Views;
 
 namespace Xamarin.Essentials
 {
     public static partial class AppInfo
     {
         static string PlatformGetPackageName() => Platform.AppContext.PackageName;
+
+        static Brightness PlatformBrightness
+        {
+            get
+            {
+                var temp = Platform.GetCurrentActivity(false)?.Window.Attributes.ScreenBrightness ?? 1;
+                return new Brightness(temp < 0 ? 0 : temp);
+            }
+        }
 
         static string PlatformGetName()
         {
@@ -47,6 +57,17 @@ namespace Xamarin.Essentials
             settingsIntent.AddFlags(ActivityFlags.NoHistory);
             settingsIntent.AddFlags(ActivityFlags.ExcludeFromRecents);
             context.StartActivity(settingsIntent);
+        }
+
+        static void PlatformSetBrightness(Brightness brightness)
+        {
+            var window = Platform.GetCurrentActivity(false)?.Window;
+            if (window == null)
+                return;
+            var attributes = new WindowManagerLayoutParams();
+            attributes.CopyFrom(window.Attributes);
+            attributes.ScreenBrightness = (float)brightness.Value;
+            window.Attributes = attributes;
         }
     }
 }

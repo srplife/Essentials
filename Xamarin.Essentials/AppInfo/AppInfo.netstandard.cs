@@ -11,5 +11,9 @@
         static string PlatformGetBuild() => throw new NotImplementedInReferenceAssemblyException();
 
         static void PlatformOpenSettings() => throw new NotImplementedInReferenceAssemblyException();
+
+        static Brightness PlatformBrightness => throw new NotImplementedInReferenceAssemblyException();
+
+        static void PlatformSetBrightness(Brightness brightness) => throw new NotImplementedInReferenceAssemblyException();
     }
 }
