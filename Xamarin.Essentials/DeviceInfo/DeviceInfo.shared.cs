@@ -16,6 +16,8 @@ namespace Xamarin.Essentials
 
         public static string Platform => GetPlatform();
 
+        public static string ID => GetID();
+
         public static string Idiom => GetIdiom();
 
         public static DeviceType DeviceType => GetDeviceType();

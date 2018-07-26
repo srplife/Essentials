@@ -161,6 +161,9 @@ namespace Xamarin.Essentials
                 case PermissionType.Vibrate:
                     permissions.Add((Manifest.Permission.Vibrate, true));
                     break;
+                case PermissionType.PhoneState:
+                    permissions.Add((Manifest.Permission.ReadPhoneState, true));
+                    break;
             }
 
             if (onlyRuntimePermissions)

@@ -1,5 +1,8 @@
-﻿using Windows.Graphics.Display;
+﻿using System;
+using Windows.Foundation.Metadata;
+using Windows.Graphics.Display;
 using Windows.Security.ExchangeActiveSyncProvisioning;
+using Windows.Storage.Streams;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 
@@ -12,6 +15,34 @@ namespace Xamarin.Essentials
         static DeviceInfo()
         {
             deviceInfo = new EasClientDeviceInformation();
+        }
+
+        static string GetID()
+        {
+            if (ApiInformation.IsTypePresent("Windows.System.Profile.SystemIdentification"))
+            {
+                var info = SystemIdentification.GetSystemIdForPublisher();
+                if (info.Source != SystemIdentificationSource.None)
+                {
+                    var dataReader = DataReader.FromBuffer(info.Id);
+
+                    var bytes = new byte[info.Id.Length];
+                    dataReader.ReadBytes(bytes);
+
+                    return Convert.ToBase64String(bytes);
+                }
+            }
+            if (ApiInformation.IsTypePresent("Windows.System.Profile.HardwareIdentification"))
+            {
+                var hardwareToken = HardwareIdentification.GetPackageSpecificToken(null);
+                var dataReader = DataReader.FromBuffer(hardwareToken.Id);
+
+                var bytes = new byte[hardwareToken.Id.Length];
+                dataReader.ReadBytes(bytes);
+
+                return Convert.ToBase64String(bytes);
+            }
+            return string.Empty;
         }
 
         static string GetModel() => deviceInfo.SystemProductName;

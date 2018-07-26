@@ -20,6 +20,9 @@ namespace Xamarin.Essentials
             return UIDevice.CurrentDevice.Model;
         }
 
+        static string GetID()
+            => UIDevice.CurrentDevice.IdentifierForVendor.ToString();
+
         static string GetManufacturer() => "Apple";
 
         static string GetDeviceName() => UIDevice.CurrentDevice.Name;

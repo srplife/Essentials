@@ -3,6 +3,8 @@ using Android.App;
 using Android.Content.Res;
 using Android.OS;
 using Android.Provider;
+using Android.Runtime;
+using static Android.Provider.Settings;
 
 namespace Xamarin.Essentials
 {
@@ -20,6 +22,25 @@ namespace Xamarin.Essentials
             if (string.IsNullOrWhiteSpace(name))
                 name = Model;
             return name;
+        }
+
+        static string GetID()
+        {
+#if __ANDROID_26__
+            if (Essentials.Platform.HasApiLevel(BuildVersionCodes.O))
+                return Build.GetSerial();
+#endif
+            try
+            {
+                var buildMembers = new XAPeerMembers("android/os/Build", typeof(Build));
+                var id = "SERIAL.Ljava/lang/String;";
+                var value = buildMembers.StaticFields.GetObjectValue(id);
+                return JNIEnv.GetString(value.Handle, JniHandleOwnership.TransferLocalRef);
+            }
+            catch
+            {
+            }
+            return string.Empty;
         }
 
         static string GetVersionString() => Build.VERSION.Release;

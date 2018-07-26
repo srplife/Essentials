@@ -8,6 +8,8 @@ namespace Samples.ViewModel
 
         public string Model => DeviceInfo.Model;
 
+        public string ID => DeviceInfo.ID;
+
         public string Manufacturer => DeviceInfo.Manufacturer;
 
         public string Name => DeviceInfo.Name;
@@ -26,10 +28,9 @@ namespace Samples.ViewModel
             set => SetProperty(ref screenMetrics, value);
         }
 
-        public override void OnAppearing()
+        public async override void OnAppearing()
         {
             base.OnAppearing();
-
             DeviceDisplay.ScreenMetricsChanged += OnScreenMetricsChanged;
             ScreenMetrics = DeviceDisplay.ScreenMetrics;
         }

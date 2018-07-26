@@ -14,6 +14,8 @@
 
         static string GetIdiom() => throw new NotImplementedInReferenceAssemblyException();
 
+        static string GetID() => throw new NotImplementedInReferenceAssemblyException();
+
         static DeviceType GetDeviceType() => throw new NotImplementedInReferenceAssemblyException();
     }
 }
