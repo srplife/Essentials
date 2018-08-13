@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace Xamarin.Essentials
@@ -77,6 +78,7 @@ namespace Xamarin.Essentials
         public GyroscopeData Reading { get; }
     }
 
+    [DebuggerDisplay("X={AngularVelocity.X}, Y={AngularVelocity.Y}, Z={AngularVelocity.Z}")]
     public struct GyroscopeData
     {
         internal GyroscopeData(double x, double y, double z)

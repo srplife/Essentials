@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Xamarin.Essentials
 {
@@ -78,6 +79,7 @@ namespace Xamarin.Essentials
         public CompassData Reading { get; }
     }
 
+    [DebuggerDisplay("HeadingMagneticNorth={HeadingMagneticNorth}")]
     public struct CompassData
     {
         internal CompassData(double headingMagneticNorth) =>

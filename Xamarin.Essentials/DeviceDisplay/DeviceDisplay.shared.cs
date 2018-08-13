@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Xamarin.Essentials
 {
@@ -49,6 +50,7 @@ namespace Xamarin.Essentials
     }
 
     [Preserve(AllMembers = true)]
+    [DebuggerDisplay("Width={Width}, Height={Height}, Density={Density}, Orientation={Orientation.ToString()}, ScreenRotation={ScreenRotation.ToString()}")]
     public struct ScreenMetrics
     {
         internal ScreenMetrics(double width, double height, double density, ScreenOrientation orientation, ScreenRotation rotation)

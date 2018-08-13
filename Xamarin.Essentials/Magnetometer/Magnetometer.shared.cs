@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace Xamarin.Essentials
@@ -77,6 +78,7 @@ namespace Xamarin.Essentials
         public MagnetometerData Reading { get; }
     }
 
+    [DebuggerDisplay("X={MagneticField.X}, Y={MagneticField.Y}, Z={MagneticField.Z}")]
     public struct MagnetometerData
     {
         internal MagnetometerData(double x, double y, double z)

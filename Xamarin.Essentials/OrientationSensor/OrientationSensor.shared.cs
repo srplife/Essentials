@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace Xamarin.Essentials
@@ -76,6 +77,8 @@ namespace Xamarin.Essentials
 
         public OrientationSensorData Reading { get; }
     }
+
+    [DebuggerDisplay("W={Orientation.W}, X={Orientation.X}, Y={Orientation.Y}, Z={Orientation.Z}")]
 
     public struct OrientationSensorData
     {

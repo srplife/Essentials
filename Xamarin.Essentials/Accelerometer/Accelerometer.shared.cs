@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace Xamarin.Essentials
@@ -77,6 +78,7 @@ namespace Xamarin.Essentials
         public AccelerometerData Reading { get; }
     }
 
+    [DebuggerDisplay("X={Acceleration.X}, Y={Acceleration.Y}, Z={Acceleration.Z}")]
     public struct AccelerometerData
     {
         internal AccelerometerData(double x, double y, double z)

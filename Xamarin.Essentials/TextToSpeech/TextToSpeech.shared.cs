@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -63,6 +64,7 @@ namespace Xamarin.Essentials
         }
     }
 
+    [DebuggerDisplay("Language={Language}, Country={Country}, Name={Name}, Id={Id}")]
     public partial struct Locale
     {
         public string Language { get; }
