@@ -23,6 +23,7 @@
         Unknown,
         Battery,
         Camera,
+        Contact,
         Flashlight,
         LocationWhenInUse,
         NetworkState,
