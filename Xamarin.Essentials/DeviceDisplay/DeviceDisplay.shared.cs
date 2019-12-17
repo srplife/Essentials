@@ -14,6 +14,10 @@ namespace Xamarin.Essentials
             set => PlatformKeepScreenOn = value;
         }
 
+        public static void LockOrientation(DisplayOrientation orientation) => PlatformLockOrientation(orientation);
+
+        public static void UnlockOrientation() => PlatformUnlockOrientation();
+
         public static DisplayInfo MainDisplayInfo => GetMainDisplayInfo();
 
         static void SetCurrent(DisplayInfo metrics) =>

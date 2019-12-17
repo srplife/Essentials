@@ -84,6 +84,21 @@ namespace Xamarin.Essentials
             });
         }
 
+        static void PlatformLockOrientation(DisplayOrientation orientation)
+        {
+            DisplayInformation.AutoRotationPreferences = orientation == DisplayOrientation.Landscape
+                ? DisplayOrientations.Landscape | DisplayOrientations.LandscapeFlipped :
+                DisplayOrientations.Portrait | DisplayOrientations.PortraitFlipped;
+        }
+
+        static void PlatformUnlockOrientation()
+        {
+            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape
+                                                         | DisplayOrientations.LandscapeFlipped
+                                                         | DisplayOrientations.Portrait
+                                                         | DisplayOrientations.PortraitFlipped;
+        }
+
         static void OnDisplayInformationChanged(DisplayInformation di, object args)
         {
             var metrics = GetMainDisplayInfo(di);

@@ -1,5 +1,6 @@
 ﻿using System;
 using Android.Content;
+using Android.Content.PM;
 using Android.Content.Res;
 using Android.Provider;
 using Android.Runtime;
@@ -29,6 +30,22 @@ namespace Xamarin.Essentials
                 else
                     window?.ClearFlags(WindowManagerFlags.KeepScreenOn);
             }
+        }
+
+        static void PlatformLockOrientation(DisplayOrientation orientation)
+        {
+            var activity = Platform.GetCurrentActivity(false);
+
+            if (activity != null)
+                activity.RequestedOrientation = Convert(orientation);
+        }
+
+        static void PlatformUnlockOrientation()
+        {
+            var activity = Platform.GetCurrentActivity(false);
+
+            if (activity != null)
+                activity.RequestedOrientation = ScreenOrientation.Unspecified;
         }
 
         static DisplayInfo GetMainDisplayInfo()
@@ -66,6 +83,19 @@ namespace Xamarin.Essentials
         {
             var metrics = GetMainDisplayInfo();
             OnMainDisplayInfoChanged(metrics);
+        }
+
+        static ScreenOrientation Convert(DisplayOrientation orientation)
+        {
+            switch (orientation)
+            {
+                case DisplayOrientation.Portrait:
+                    return ScreenOrientation.Portrait;
+                case DisplayOrientation.Landscape:
+                    return ScreenOrientation.Landscape;
+                default:
+                    return ScreenOrientation.Unspecified;
+            }
         }
 
         static DisplayRotation CalculateRotation()

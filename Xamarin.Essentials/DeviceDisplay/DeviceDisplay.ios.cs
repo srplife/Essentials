@@ -6,6 +6,7 @@ namespace Xamarin.Essentials
     public static partial class DeviceDisplay
     {
         static NSObject observer;
+        static DisplayOrientation lockedOrientation;
 
         static bool PlatformKeepScreenOn
         {
@@ -26,11 +27,37 @@ namespace Xamarin.Essentials
                 rotation: CalculateRotation());
         }
 
+        static void PlatformLockOrientation(DisplayOrientation orientation)
+        {
+            lockedOrientation = orientation;
+
+            SetOrientation(orientation);
+        }
+
+        static void SetOrientation()
+        {
+            UIInterfaceOrientation
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                UIDevice.CurrentDevice.SetValueForKey(
+                   NSObject.FromObject(Convert(orientation)),
+                   new NSString("orientation"));
+                UIViewController.AttemptRotationToDeviceOrientation();
+            });
+        }
+
+        static void PlatformUnlockOrientation()
+        {
+            lockedOrientation = DisplayOrientation.Undefined;
+
+            SetDeviceOrientation(Reverse(Convert(CurrentDeviceOrientation)));
+        }
+
         static void StartScreenMetricsListeners()
         {
             var notificationCenter = NSNotificationCenter.DefaultCenter;
             var notification = UIApplication.DidChangeStatusBarOrientationNotification;
-            observer = notificationCenter.AddObserver(notification, OnScreenMetricsChanged);
+            observer = notificationCenter.AddObserver(notification, () => OnScreenMetricsChanged());
         }
 
         static void StopScreenMetricsListeners()
